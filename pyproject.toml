@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "app-improvement-stages"
+version = "0.1.0"
+description = "Demonstration of multiple stages of application improvement"
+authors = ["Nicolay Veniaminov <nicolay.veniaminov@dct-ai.com>"]
+readme = "README.md"
+packages = [{include = "app_improvement_stages"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+scikit-learn = "^1.2.2"
+
+[tool.poetry.group.dev.dependencies]
+matplotlib = "^3.7.1"
+jupyter = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
