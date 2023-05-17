@@ -1,13 +1,8 @@
 import argparse
-import os
-import pickle
-
+from common.utils import load_classifier
 
 # model bring-up
-model_pickle_path = os.path.join(os.path.dirname(__file__), '../models/model.pkl')
-with open(model_pickle_path, 'rb') as p:
-    clf = pickle.load(p)
-
+clf = load_classifier('../models/model.pkl')
 
 # input interface
 parser = argparse.ArgumentParser(description='Loads already prepared classifier for iris data, '

@@ -1,7 +1,10 @@
-from common.utils import parse_input_string, load_classifier
+import requests
 
-# model bring-up
-clf = load_classifier('../models/model.pkl')
+from common.utils import parse_input_string
+
+# rest service config
+url = "http://127.0.0.1:8000/iris-classifier"
+headers = {'Content-Type': 'application/json'}
 
 # inference; running the model
 while True:
@@ -12,13 +15,14 @@ while True:
         break
 
     X = [parse_input_string(user_input)]
-    # input validation
+    # client-side input validation
     if len(X[0]) != 4:
         print("Invalid input. Enter exactly 4 numbers. \n")
         continue
 
     # calling the model
-    y = clf.predict(X)
+    http_res = requests.Request('POST', url=url, headers=headers, data=X)
+    y = http_res
 
     # output interface
     print(y)
