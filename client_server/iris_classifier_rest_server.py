@@ -14,6 +14,7 @@ class IrisParameters(pydantic.BaseModel):
         return [self.sepal_length, self.sepal_width, self.petal_length, self.petal_width]
 
 
+# output validation
 class IrisType(pydantic.BaseModel):
     iris_type: int
 

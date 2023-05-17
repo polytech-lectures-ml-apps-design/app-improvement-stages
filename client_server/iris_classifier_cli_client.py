@@ -1,5 +1,6 @@
 import requests
 
+from client_server.iris_classifier_rest_server import IrisParameters
 from common.utils import parse_input_string
 
 # rest service config
@@ -14,15 +15,18 @@ while True:
     if user_input == 'q':
         break
 
-    X = [parse_input_string(user_input)]
+    X = parse_input_string(user_input)
     # client-side input validation
-    if len(X[0]) != 4:
+    if len(X) != 4:
         print("Invalid input. Enter exactly 4 numbers. \n")
         continue
 
     # calling the model
-    http_res = requests.Request('POST', url=url, headers=headers, data=X)
-    y = http_res
+    http_res = requests.post(url=url, headers=headers, data=IrisParameters(sepal_length=X[0],
+                                                                           sepal_width=X[1],
+                                                                           petal_length=X[2],
+                                                                           petal_width=X[3]).json())
+    y = http_res.json()
 
     # output interface
     print(y)
