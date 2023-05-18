@@ -18,3 +18,71 @@ E.g.:
 ```bash
 python -m monolith_cli.iris_classifier_monolith_cli_app 1 2 3 4
 ```
+
+### Monolith app with CLI
+
+The app source code is in [monolith_cli](1_monolith_cli).
+
+Run as:
+```shell
+python -m monolith_cli.iris_classifier_monolith_cli_app <sepal_length> <sepal_width> <petal_length> <petal_width> 
+```
+I.e. the app accepts exactly 4 command line arguments.
+
+### Monolith app processing user command line input sequentially
+
+The app source code is in [monolith_user_input_loop](2_monolith_user_input_loop).
+
+Run as:
+```shell
+python -m monolith_user_input_loop.iris_classifier_monolith_user_input_loop_app 
+```
+and follow interactive prompt instructions.
+
+### Client-server
+
+Client is an interactive prompt client (like in [previous section](#monolith-app-processing-user-command-line-input-sequentially)).
+The app source code is in [client_server](3_client_server).
+
+Run server as:
+```shell
+uvicorn client_server.iris_classifier_rest_server:app --reload 
+```
+Use `--reload` flag only for debugging.
+Then start client as:
+```shell
+python -m client_server.iris_classifier_cli_client_rest
+```
+and run it in interactive shell.
+
+We will also use
+```shell
+uvicorn client_server.iris_classifier_rest_server:app --limit-concurrency 2
+```
+with a CPU-bound version of server to illustrate that with 2 concurrent clients,
+one of them will receive `503 Service Unavailable`
+which brings of to the idea of using a message queue for tasks.
+
+### Message queue
+
+Kafka message queue is used.
+Client (still operating via interactive prompt as previously) publishes tasks to the `tasks` 
+topic in the message queue.
+Server subscribes for the `tasks` topic and sequentially executes inference. 
+Results are published to the `results` topic.
+
+First, bring up Apache Kafka with:
+```shell
+cd ./multiple_clients_message_queue
+docker compose up -d
+```
+
+Run worker as
+```shell
+python -m multiple_clients_message_queue.iris_classifier_mq_worker
+```
+
+Run CLI client as
+```shell
+python -m multiple_clients_message_queue.iris_classifier_cli_client_mq
+```

@@ -1,11 +1,13 @@
+import os
+
 import requests
 
-from client_server.iris_classifier_rest_server import IrisParameters
+from common.iris_dto import IrisParameters
 from common.utils import parse_input_string
 
 # rest service config
 url = "http://127.0.0.1:8000/iris-classifier"
-headers = {'Content-Type': 'application/json'}
+headers = {'Content-Type': 'application/json', 'Process-Id': f"{os.getpid()}"}
 
 # inference; running the model
 while True:
