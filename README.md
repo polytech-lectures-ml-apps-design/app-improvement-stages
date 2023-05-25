@@ -9,6 +9,8 @@ architecture:
 * monolith app (Python) with CLI; runs inference once
 * monolith app processing user command line input sequentially
 * first step to modularity: analytical REST service and CLI client
+* decoupling via message queue
+* load balancing with tasks queue
 
 ## How to run
 
@@ -70,6 +72,7 @@ Client (still operating via interactive prompt as previously) publishes tasks to
 topic in the message queue.
 Server subscribes for the `tasks` topic and sequentially executes inference. 
 Results are published to the `results` topic.
+Results are also persisted in a simple SQLite DB.
 
 The app source code is in [4_message_queue](4_message_queue).
 
@@ -88,3 +91,40 @@ Run CLI client as
 ```shell
 python -m 4_message_queue.iris_classifier_cli_client_mq
 ```
+
+
+### Task queue
+
+Again, kafka message queue is used.
+Client (still operating via interactive prompt as previously) publishes tasks to the `tasks` 
+topic in the message queue and synchronously waits for the result in the `results` topic.
+Workers subscribe for the `tasks` topic and sequentially executes inference. 
+Results are published to the `results` topic.
+
+The mechanism how clients understand which result is designated for them is as follows:
+* the task contains not only the **X**, but also the task id (generated with UUID4)
+* worker joins the task id to the result so that it can be linked and filtered out by the client
+
+The load balancing as achieved by two things:
+* setting multiple partitions for the `tasks` topic (in the script [kafka_setup.py](5_task_queue/kafka_setup.py))
+* assigning all consumers (defined in workers) to the same consumer group
+* check https://www.instaclustr.com/blog/a-beginners-guide-to-kafka-consumers/ for more details
+
+The app source code is in [5_task_queue](5_task_queue).
+
+First, bring up Apache Kafka with:
+```shell
+cd ./5_task_queue
+docker compose up -d
+```
+
+Run multiple workers as
+```shell
+python -m 5_task_queue.iris_classifier_task_queue_worker
+```
+
+Run multiple CLI clients as
+```shell
+python -m 5_message_queue.iris_classifier_cli_client_task_queue
+```
+Send tasks simultaneously from multiple clients and check how they are distributed among workers.
