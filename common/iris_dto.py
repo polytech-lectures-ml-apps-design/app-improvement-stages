@@ -1,4 +1,7 @@
+import uuid
+
 import pydantic
+from pydantic import BaseModel
 
 
 class IrisParameters(pydantic.BaseModel):
@@ -12,4 +15,20 @@ class IrisParameters(pydantic.BaseModel):
 
 
 class IrisType(pydantic.BaseModel):
-    iris_type: int
+    iris_type: int  # todo: change to Enum
+
+
+class Result(pydantic.BaseModel):
+    X: IrisParameters
+    y: IrisType
+
+
+class Task(BaseModel):
+    task_id: uuid.UUID
+    X: IrisParameters
+
+
+class SignedResult(pydantic.BaseModel):
+    task_id: uuid.UUID
+    X: IrisParameters
+    y: IrisType

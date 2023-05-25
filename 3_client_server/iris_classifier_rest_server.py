@@ -1,3 +1,4 @@
+import json
 import logging
 import time
 
@@ -15,11 +16,14 @@ clf = load_classifier('../models/model.pkl')
 # REST server definition
 app = fastapi.FastAPI()
 
+@app.get('/model-info')
+def model_info():
+    return str(clf.get_params())
 
 # inference method
 @app.post('/iris-classifier')
 def predict(X: IrisParameters, request: fastapi.Request) -> IrisType:
-    logging.info(f"Processing request from client with PID {request.headers['Process-Id']}")
+    logging.info(f"Processing request")
     time.sleep(10)
     # load_all_cpus(10)
     return IrisType(iris_type=clf.predict([X.to_list()])[0])

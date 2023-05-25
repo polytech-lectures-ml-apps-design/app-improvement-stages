@@ -14,6 +14,8 @@ parser.add_argument('X', type=float, nargs=4, help='Sepal length in cm, '
                                                    'Petal width in cm.')
 # input validation
 args = parser.parse_args()
+
+# input data transformation
 X = [args.X]
 
 # inference, running the model

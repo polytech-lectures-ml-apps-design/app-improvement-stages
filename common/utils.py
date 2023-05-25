@@ -3,6 +3,7 @@ import os
 import pickle
 import re
 import time
+import uuid
 from multiprocessing import Pool, Process
 from multiprocessing import cpu_count
 
@@ -38,3 +39,7 @@ def load_all_cpus(interval: float):
 
     pool = Pool(num_processes)
     pool.map(CpuLoadGenerator(interval), range(num_processes))
+
+
+def generate_task_id():
+    return uuid.uuid4()

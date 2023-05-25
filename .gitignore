@@ -141,3 +141,4 @@ dmypy.json
 /data
 /mlartifacts/
 /mlruns/
+/4_message_queue/database.db
