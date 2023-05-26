@@ -105,7 +105,7 @@ The mechanism how clients understand which result is designated for them is as f
 * the task contains not only the **X**, but also the task id (generated with UUID4)
 * worker joins the task id to the result so that it can be linked and filtered out by the client
 
-The load balancing as achieved by two things:
+The load balancing is achieved by two things:
 * setting multiple partitions for the `tasks` topic (in the script [kafka_setup.py](5_task_queue/kafka_setup.py))
 * assigning all consumers (defined in workers) to the same consumer group
 * check https://www.instaclustr.com/blog/a-beginners-guide-to-kafka-consumers/ for more details
