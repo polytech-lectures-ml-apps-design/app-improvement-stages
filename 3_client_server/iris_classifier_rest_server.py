@@ -9,16 +9,17 @@ from common.iris_dto import IrisParameters, IrisType
 
 logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
-
 # model bring-up
 clf = load_classifier('../models/model.pkl')
 
 # REST server definition
 app = fastapi.FastAPI()
 
+
 @app.get('/model-info')
 def model_info():
     return str(clf.get_params())
+
 
 # inference method
 @app.post('/iris-classifier')

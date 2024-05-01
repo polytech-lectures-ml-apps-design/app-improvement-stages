@@ -1,7 +1,7 @@
 from kafka import KafkaAdminClient
 from kafka.admin.new_partitions import NewPartitions
 
-NUM_PARTITIONS = 4
+NUM_PARTITIONS = 2
 
 client = KafkaAdminClient(bootstrap_servers='localhost:29092')
 

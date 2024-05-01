@@ -63,7 +63,7 @@ uvicorn 3_client_server.iris_classifier_rest_server:app --limit-concurrency 2
 ```
 with a CPU-bound version of server to illustrate that with 2 concurrent clients,
 one of them will receive `503 Service Unavailable`
-which brings of to the idea of using a message queue for tasks.
+which brings us to the idea of using a message queue for tasks.
 
 ### Message queue
 
@@ -125,6 +125,6 @@ python -m 5_task_queue.iris_classifier_task_queue_worker
 
 Run multiple CLI clients as
 ```shell
-python -m 5_message_queue.iris_classifier_cli_client_task_queue
+python -m 5_task_queue.iris_classifier_cli_client_task_queue
 ```
 Send tasks simultaneously from multiple clients and check how they are distributed among workers.

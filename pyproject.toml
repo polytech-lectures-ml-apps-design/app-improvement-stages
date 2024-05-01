@@ -10,9 +10,10 @@ packages = [{include = "app_improvement_stages"}]
 python = "^3.10"
 scikit-learn = "^1.2.2"
 requests = "^2.30.0"
-fastapi = {extras = ["all"], version = "^0.95.2"}
+fastapi = {extras = ["all"], version = "^0.110"}
 kafka-python = "^2.0.2"
 sqlalchemy = "^2.0.15"
+pydantic = "^2.7.1"
 
 [tool.poetry.group.dev.dependencies]
 matplotlib = "^3.7.1"

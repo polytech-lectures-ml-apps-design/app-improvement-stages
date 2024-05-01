@@ -1,7 +1,6 @@
 import uuid
 
 import pydantic
-from pydantic import BaseModel
 
 
 class IrisParameters(pydantic.BaseModel):
@@ -23,7 +22,7 @@ class Result(pydantic.BaseModel):
     y: IrisType
 
 
-class Task(BaseModel):
+class Task(pydantic.BaseModel):
     task_id: uuid.UUID
     X: IrisParameters
 
